@@ -11,6 +11,7 @@ mod progress_bar;
 pub use button::{Button, ButtonBuilder, ButtonProps, Msg, button};
 pub use progress_bar::{ProgressBar, ProgressBarBuilder, ProgressBarProps, progress_bar};
 pub use termoxide_component_macros::RsxComponent;
+pub use termoxide_reactive::{Effect, Signal};
 use termoxide_rendering::{
     builder::{IntoViewNode, NodeBuilder},
     view_node::{ViewContent, ViewNode},
@@ -22,6 +23,19 @@ pub trait Component {
     type Builder: NodeBuilder;
 
     fn render(props: Self::Props) -> Self::Builder;
+}
+
+/// Create a reactive side effect from component code.
+///
+/// Components should create effects from their constructor or mount/setup
+/// code, not from an RSX expression. The effect belongs to the active
+/// application owner and is disposed with it.
+pub fn use_effect<F, T>(f: F) -> Effect
+where
+    F: Fn(Option<T>) -> T + 'static,
+    T: 'static,
+{
+    Effect::new(f)
 }
 
 /// Convert a component or primitive into a view node.

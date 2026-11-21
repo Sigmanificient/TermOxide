@@ -1174,6 +1174,8 @@ version = "1.0.0-alpha"
 dependencies = [
  "ratatui",
  "termoxide_component_macros",
+ "termoxide_event",
+ "termoxide_reactive",
  "termoxide_rendering",
 ]
 
